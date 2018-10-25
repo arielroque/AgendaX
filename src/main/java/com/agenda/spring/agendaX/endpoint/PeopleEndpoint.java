@@ -36,7 +36,7 @@ public class PeopleEndpoint {
             return new ResponseEntity<>(peopleDAO.findById(id), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("não encontradooooo", HttpStatus.OK);
+        return new ResponseEntity<>("User not found", HttpStatus.OK);
     }
 
     @GetMapping()

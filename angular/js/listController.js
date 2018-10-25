@@ -4,14 +4,26 @@ app.controller('listCtrl', function ($scope, $http) {
     $scope.listContacts = [];
 
 
+    $scope.editModal = function (userId) {
 
-    $scope.editModal = function () {
+        $http.get("http://localhost:8085/people/"+userId).then(function (response) {
 
-        $('#modal-create').modal(function (event) {
-            
-
+            contact = response.data;
         });
 
+
+        $.ajax({
+            url: "#modal-create",
+            success: function () {
+
+                $("#name").val(contact.name);
+                $("#surname").val(contact.surname);
+                $("#phone").val(contact.phone);
+                $("#modal-create").modal('show');
+
+            }
+
+        })
 
         //$('#modal-create').modal();
 
