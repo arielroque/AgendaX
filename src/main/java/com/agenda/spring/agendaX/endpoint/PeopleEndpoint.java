@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("people")
 public class PeopleEndpoint {
@@ -14,12 +16,12 @@ public class PeopleEndpoint {
     private PeopleRepository peopleDAO;
 
     @Autowired
-    public PeopleEndpoint(PeopleRepository peopleDAO){
+    public PeopleEndpoint(PeopleRepository peopleDAO) {
         this.peopleDAO = peopleDAO;
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody People people){
+    public ResponseEntity<?> create(@RequestBody People people) {
 
         peopleDAO.save(people);
 
@@ -28,12 +30,36 @@ public class PeopleEndpoint {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<?> get(@PathVariable("id") int id){
+    public ResponseEntity<?> get(@PathVariable("id") int id) {
 
-        if(peopleDAO.existsById(id)){
-            return new ResponseEntity<>(peopleDAO.findById(id),HttpStatus.OK);
+        if (peopleDAO.existsById(id)) {
+            return new ResponseEntity<>(peopleDAO.findById(id), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("não encontradooooo",HttpStatus.OK);
+        return new ResponseEntity<>("não encontradooooo", HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getAllContacts() {
+        return new ResponseEntity<>(peopleDAO.findAll(), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateContact(@RequestBody People p) {
+
+        peopleDAO.save(p);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteContact(@PathVariable("{id}") int id) {
+
+        peopleDAO.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
     }
 }

@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Entity
 public class People implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

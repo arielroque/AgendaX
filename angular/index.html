@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/createController.js"></script>
+    <script src="js/listController.js"></script>
 
 </head>
 <body>
@@ -22,10 +23,8 @@
             <h1 class="display-4">Agenda Js Spring</h1>
             <p class="lead"> Simple agenda to save contacts</p>
             <button class="btn btn-primary" data-target="#modal-create" data-toggle="modal">Create contact</button>
-<<<<<<< HEAD
-            <button class="btn btn-warning" ng-click="get()">Get</button>
-=======
->>>>>>> 464dfb2c57bd344d346974065320bdffef29a695
+
+            <button class="btn btn-warning" >Get</button>
 
         </div>
 
@@ -66,10 +65,43 @@
             </div>
         </div>
 
-
-
-
     </header>
+
+    <section ng-controller="listCtrl">
+
+        <div class="row">
+
+            <div class="col-sm-6" ng-repeat="contact in listContacts">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h1 class="card-title">{{contact.name}}</h1>
+
+                        <p class="card-text">{{contact.phone}}</p>
+
+                        <button class="btn btn-warning" ng-click="editModal()" >Edit</button>
+
+                        <button class="btn btn-danger" >Delete</button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </section>
 
 
 
