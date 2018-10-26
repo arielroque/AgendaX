@@ -3,13 +3,10 @@ app.controller('listCtrl', function ($scope, $http) {
 
     $scope.listContacts = [];
 
+    $scope.editModal = function (userName,userSurname,userPhone) {
 
-    $scope.editModal = function (userId) {
 
-        $http.get("http://localhost:8085/people/"+userId).then(function (response) {
-
-            contact = response.data;
-        });
+        let contact ={"name":userName,"surname":userSurname,"phone":userPhone};
 
 
         $.ajax({
@@ -25,20 +22,16 @@ app.controller('listCtrl', function ($scope, $http) {
 
         })
 
-        //$('#modal-create').modal();
-
-        /*
-
-        $("#name").html('Edit auction with id ');
-        $("#surname").value("fdfdfd");
-
-        */
-        //$('#edit-auction-modal ').find('input#input-id').val($(e.relatedTarget).data('title'))
-
 
     };
 
     $scope.editContact = function () {
+
+        alert("opaa");
+
+        $("#modal-create").removeData();
+
+        $("#modal-create").modal('hidden');
 
 
     };
