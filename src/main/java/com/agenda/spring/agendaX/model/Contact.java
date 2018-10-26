@@ -7,23 +7,23 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class People implements Serializable {
+public class Contact implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private String surname;
+    private String relation;
     private String phone;
 
 
-    public People(){
+    public Contact(){
 
     }
 
-    public People(String name, String surname, String phone){
+    public Contact(String name, String surname, String relation){
         this.name=name;
-        this.surname=surname;
+        this.relation=relation;
         this.phone=phone;
     }
 
@@ -44,12 +44,12 @@ public class People implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getrelation() {
+        return relation;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setRelation(String surname) {
+        this.relation = surname;
     }
 
     public String getPhone() {

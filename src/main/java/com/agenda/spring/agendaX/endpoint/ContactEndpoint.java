@@ -1,29 +1,27 @@
 package com.agenda.spring.agendaX.endpoint;
 
-import com.agenda.spring.agendaX.model.People;
-import com.agenda.spring.agendaX.repository.PeopleRepository;
+import com.agenda.spring.agendaX.model.Contact;
+import com.agenda.spring.agendaX.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@RequestMapping("people")
-public class PeopleEndpoint {
+@RequestMapping("contact")
+public class ContactEndpoint {
 
-    private PeopleRepository peopleDAO;
+    private ContactRepository peopleDAO;
 
     @Autowired
-    public PeopleEndpoint(PeopleRepository peopleDAO) {
+    public ContactEndpoint(ContactRepository peopleDAO) {
         this.peopleDAO = peopleDAO;
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody People people) {
+    public ResponseEntity<?> create(@RequestBody Contact contact) {
 
-        peopleDAO.save(people);
+        peopleDAO.save(contact);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
@@ -39,13 +37,22 @@ public class PeopleEndpoint {
         return new ResponseEntity<>("User not found", HttpStatus.OK);
     }
 
+    @GetMapping(path = "/find/{name}")
+    public ResponseEntity<?> findContactsByName (@PathVariable("name") String name){
+
+        return new ResponseEntity<>(peopleDAO.findByNameIgnoreCaseContaining(name),HttpStatus.OK);
+
+
+
+    }
+
     @GetMapping()
     public ResponseEntity<?> getAllContacts() {
         return new ResponseEntity<>(peopleDAO.findAll(), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateContact(@RequestBody People p) {
+    public ResponseEntity<?> updateContact(@RequestBody Contact p) {
 
         peopleDAO.save(p);
 
@@ -53,13 +60,12 @@ public class PeopleEndpoint {
 
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteContact(@PathVariable("{id}") int id) {
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<?> deleteContactById(@PathVariable("id") int id){
 
         peopleDAO.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
-
 
     }
 }

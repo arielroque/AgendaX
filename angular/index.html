@@ -16,23 +16,52 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" ng-controller="createCtrl">
 
-    <header ng-controller="createCtrl">
+    <header>
+
+        <div class="alert alert-success collapse" role="dialog" id="successCreateContact">
+            <strong>Well done!</strong> Contact successfully added.
+        </div>
+
+        <div class="alert alert-warning collapse" role="dialog" id="failedCreateContact">
+            <strong>Warning!</strong> Contact was not successfully added.
+        </div>
+
+
         <div class="jumbotron">
+
             <h1 class="display-4">Agenda Js Spring</h1>
             <p class="lead"> Simple agenda to save contacts</p>
-            <button class="btn btn-primary" data-target="#modal-create" data-toggle="modal">Create contact</button>
 
-            <button class="btn btn-warning" >Get</button>
+            <div class="row">
+
+                <div class="col-sm-7">
+
+                    <button class="btn btn-primary" ng-click="openContactModal()">Create contact</button>
+                    <button class="btn btn-warning" ng-click="getAllContacts()">Show all Contacts</button>
+
+                </div>
+
+                <div class="col-sm-5">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-1" type="search" ng-model="search" placeholder="Search contact"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="searchContact()">Search</button>
+                    </form>
+
+                </div>
+
+            </div>
+
 
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="modal-create">
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal-user">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create an contact</h5>
+                        <h5 class="modal-title" id="modal-title">Create contact</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -45,10 +74,20 @@
                                 <input class="form-control" ng-model="name" type="text" id="name">
                             </div>
 
+
                             <div class="form-group">
-                                <label>Surname</label>
-                                <input class="form-control" ng-model="surname" type="text" id="surname">
+
+                                <label for="relationship-type">Relationship</label>
+
+                                <select class="custom-select" ng-model="relation" ng-init="relation='Friend'"
+                                        id="relationship-type">
+                                    <option>Friend</option>
+                                    <option value="Family">Family</option>
+                                    <option value="Work">Work</option>
+                                </select>
+
                             </div>
+
 
                             <div class="form-group">
                                 <label>Phone</label>
@@ -58,7 +97,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="createContact()">Save</button>
+                        <button type="button" class="btn btn-primary" ng-click="chooseCreateOrUpdate()">Save</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -67,7 +106,8 @@
 
     </header>
 
-    <section ng-controller="listCtrl">
+    <section>
+
 
         <div class="row">
 
@@ -75,35 +115,61 @@
 
                 <div class="card">
 
+                    <div class="card-title d-flex justify-content-center">
+
+                        <h3><span class="badge badge-secondary text-sm-center">{{contact.relation}}</span></h3>
+
+                    </div>
+
                     <div class="card-body">
+                        <h1>{{contact.name}}</h1>
+                        <h3><span class="text-warning">{{contact.phone}}</span></h3>
 
-                        <h1 class="card-title">{{contact.name}}</h1>
+                        <div class="text-sm-center">
 
-                        <p class="card-text">{{contact.phone}}</p>
+                            <button class="btn btn-warning"
+                                    ng-click="editModal(contact.id,contact.name,contact.relation,contact.phone)">Edit
+                                Contact
+                            </button>
 
-                        <button class="btn btn-warning" ng-click="editModal(contact.name,contact.surname,contact.phone)" >Edit</button>
+                            <button class="btn btn-danger " ng-click="openQuestionModal()">
+                                Delete Contact
+                            </button>
 
-                        <button class="btn btn-danger" >Delete</button>
-
+                        </div>
 
                     </div>
 
 
                 </div>
 
-
+                <div class="modal fade" tabindex="-1" role="dialog" id="modal-question-delete">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Contact</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you have sure that want to delete this contact?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" ng-click="deleteContact(contact.id)">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
-
 
 
         </div>
 
 
-
     </section>
-
-
 
 
 </div>

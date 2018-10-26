@@ -3,15 +3,28 @@ app.controller('listCtrl', function ($scope, $http) {
 
     $scope.listContacts = [];
 
-    $scope.editModal = function (userName,userSurname,userPhone) {
+    $scope.refresh= function(){
+
+      window.location.reload();
+
+    };
+
+    $scope.editContact = function (userName,userSurname,userPhone) {
 
 
         let contact ={"name":userName,"surname":userSurname,"phone":userPhone};
 
+        $scope.name=contact.name;
+
+        $("#modal-create").modal('show');
+
+
+        /*
 
         $.ajax({
             url: "#modal-create",
             success: function () {
+
 
                 $("#name").val(contact.name);
                 $("#surname").val(contact.surname);
@@ -22,20 +35,10 @@ app.controller('listCtrl', function ($scope, $http) {
 
         })
 
-
-    };
-
-    $scope.editContact = function () {
-
-        alert("opaa");
-
-        $("#modal-create").removeData();
-
-        $("#modal-create").modal('hidden');
+        */
 
 
     };
-
 
     $scope.getAllContacts = (function () {
 
@@ -46,7 +49,7 @@ app.controller('listCtrl', function ($scope, $http) {
 
         }).catch(function (response) {
 
-            alert("Error to request the Database");
+            alert("Error while requesting the database");
 
 
         })
@@ -61,15 +64,34 @@ app.controller('listCtrl', function ($scope, $http) {
     $scope.getContactById = function () {
 
 
+
         $http.get('http://localhost:8085/people/1').then(function (response) {
             alert(response.data["name"]);
 
         }).catch(function (response) {
-            alert("error");
+            alert("Error while requesting the database");
         });
 
 
         ;
+
+    }
+
+    $scope.deleteContact= function (userId) {
+
+
+        $http.delete('http://localhost:8085/people/'+userId).then(function (response) {
+
+            alert("Contact deleted successfully");
+
+        }).catch(function (response) {
+
+            alert(response);
+
+        })
+
+
+        $scope.refresh();
 
     }
 
