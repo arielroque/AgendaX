@@ -1,6 +1,6 @@
 let app = angular.module("agenda", []);
 
-app.controller("createCtrl", function ($scope, $http) {
+app.controller("agendaCtrl", function ($scope, $http) {
 
     $scope.id=0; // Used to realize the update
     $scope.name = "";
@@ -150,15 +150,9 @@ app.controller("createCtrl", function ($scope, $http) {
             $scope.listContacts = response.data;
 
         }).catch(function (response) {
-            $("#failedCreateContact").show();
 
-            window.setTimeout(function () {
+            alert("Error to connect in the database");
 
-                $("#failedCreateContact").alert("close");
-
-                window.location.reload();
-
-            }, 2000);
         })
     });
 
@@ -189,9 +183,12 @@ app.controller("createCtrl", function ($scope, $http) {
 
     $scope.deleteContact = function (userId) {
 
+        $("#modal-question-delete").modal("toggle");
+
         $http.delete('http://localhost:8085/contact/' + userId).then(function (response) {
 
             alert("Contact deleted successfully");
+
 
         }).catch(function (response) {
 
@@ -201,11 +198,11 @@ app.controller("createCtrl", function ($scope, $http) {
 
                 $("#failedCreateContact").alert("close");
 
-                window.location.reload();
-
             }, 2000);
 
         });
+
+        window.location.reload();
 
 
     };
