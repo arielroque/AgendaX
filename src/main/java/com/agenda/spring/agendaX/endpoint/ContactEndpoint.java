@@ -37,14 +37,25 @@ public class ContactEndpoint {
         return new ResponseEntity<>("User not found", HttpStatus.OK);
     }
 
-    @GetMapping(path = "/find/{name}")
+    @GetMapping(path = "/findByName/{name}")
     public ResponseEntity<?> findContactsByName (@PathVariable("name") String name){
 
         return new ResponseEntity<>(peopleDAO.findByNameIgnoreCaseContaining(name),HttpStatus.OK);
-
-
-
     }
+
+    @GetMapping(path = "/findByRelation/{relation}")
+    public ResponseEntity<?>findContactByRelation(@PathVariable("relation")String relation){
+
+        return new ResponseEntity<>(peopleDAO.findByRelationIgnoreCaseContaining(relation),HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/findByPhone/{phone}")
+    public ResponseEntity<?>findContactByPhone(@PathVariable("phone")String phone){
+
+        return new ResponseEntity<>(peopleDAO.findByPhoneIgnoreCaseContaining(phone),HttpStatus.OK);
+    }
+
+
 
     @GetMapping()
     public ResponseEntity<?> getAllContacts() {

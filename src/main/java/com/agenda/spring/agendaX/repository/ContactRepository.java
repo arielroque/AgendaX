@@ -9,4 +9,8 @@ import java.util.List;
 public interface ContactRepository extends CrudRepository<Contact,Integer> {
 
     List<Contact> findByNameIgnoreCaseContaining(String name);
+
+    List<Contact>findByRelationIgnoreCaseContaining(String relation);
+
+    List<Contact> findByPhoneIgnoreCaseContaining(String phone);
 }

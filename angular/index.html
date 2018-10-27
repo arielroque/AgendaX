@@ -21,34 +21,47 @@
     <header>
 
         <div class="alert alert-success collapse" role="dialog" id="successCreateContact">
-            <strong>Well done!</strong> Contact successfully added.
+            <strong>Well done!</strong> Successfull Operation.
         </div>
 
         <div class="alert alert-warning collapse" role="dialog" id="failedCreateContact">
-            <strong>Warning!</strong> Contact was not successfully added.
+            <strong>Warning!</strong> Error in operation, please try again!.
         </div>
 
 
         <div class="jumbotron">
 
-            <h1 class="display-4">Agenda Js Spring</h1>
-            <p class="lead"> Simple agenda to save contacts</p>
+            <h1 class="display-4">AgendaX</h1>
 
             <div class="row">
 
-                <div class="col-sm-7">
+                <div class="col-sm-5">
+
+                    <p class="lead"> A Simple agenda to save contacts</p>
 
                     <button class="btn btn-primary" ng-click="openContactModal()">Create contact</button>
                     <button class="btn btn-warning" ng-click="getAllContacts()">Show all Contacts</button>
 
                 </div>
 
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <form class="form-inline">
                         <input class="form-control mr-sm-1" type="search" ng-model="search" placeholder="Search contact"
                                aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="searchContact()">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="searchContact()">
+                            Search
+                        </button>
+
+                        <button class="btn btn-primary ml-2 mr-2">Filter By</button>
+
+                        <select class="custom-select" ng-model="searchOption" id="search-filter"
+                                ng-init="searchOption='Name'">
+                            <option value="Name">Name</option>
+                            <option value="Relation">Relation</option>
+                            <option value="Phone">Phone</option>
+                        </select>
                     </form>
+
 
                 </div>
 
@@ -81,7 +94,7 @@
 
                                 <select class="custom-select" ng-model="relation" ng-init="relation='Friend'"
                                         id="relationship-type">
-                                    <option>Friend</option>
+                                    <option value="Friend">Friend</option>
                                     <option value="Family">Family</option>
                                     <option value="Work">Work</option>
                                 </select>
@@ -122,8 +135,8 @@
                     </div>
 
                     <div class="card-body">
-                        <h1>{{contact.name}}</h1>
-                        <h3><span class="text-warning">{{contact.phone}}</span></h3>
+                        <h3>{{contact.name}}</h3>
+                        <h4><span class="text-warning">{{contact.phone}}</span></h4>
 
                         <div class="text-sm-center">
 
@@ -156,7 +169,8 @@
                                 <p>Do you have sure that want to delete this contact?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" ng-click="deleteContact(contact.id)">Yes</button>
+                                <button type="button" class="btn btn-primary" ng-click="deleteContact(contact.id)">Yes
+                                </button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                             </div>
                         </div>

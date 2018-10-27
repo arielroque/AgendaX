@@ -4,47 +4,48 @@ app.controller("createCtrl", function ($scope, $http) {
 
     $scope.id=0; // Used to realize the update
     $scope.name = "";
-    $scope.relation = "Friend";
+    $scope.relation ="Friend";
     $scope.phone = "";
     $scope.listContacts = [];
+    $scope.search="";
+    $scope.searchOption="Name";
 
 
-    $scope.refresh = function () {
 
-        window.location.reload();
+    $scope.searchContact = function(){
 
-    };
 
-    $scope.searchContact = function(option="name"){
+        if($scope.searchOption === "Name"){
 
-        if(option === "name"){
 
-            alert("oi");
-
-          $http.get("http://localhost:8085/contact/find/"+name).then(function (response) {
+          $http.get("http://localhost:8085/contact/findByName/"+$scope.search).then(function (response) {
 
             $scope.listContacts= response.data;
-
-            window.location.reload();
 
           })
 
 
         }
-        else if ( option === ""){
+        else if ($scope.searchOption === "Relation"){
+
+            $http.get("http://localhost:8085/contact/findByRelation/"+$scope.search).then(function (response) {
+
+                $scope.listContacts = response.data;
+            })
 
 
         }
         else{
 
+            $http.get("http://localhost:8085/contact/findByPhone/"+$scope.search).then(function (response) {
+
+                $scope.listContacts = response.data;
+            })
+
         }
-
-
-
-
-
-
     };
+
+
 
     $scope.openQuestionModal = function(){
 
@@ -69,7 +70,6 @@ app.controller("createCtrl", function ($scope, $http) {
 
     $scope.editModal = function (userId,userName, userRelation, userPhone) {
 
-        alert(userRelation);
 
         $.ajax({
            url:"#modal-user",
@@ -102,37 +102,45 @@ app.controller("createCtrl", function ($scope, $http) {
 
     $scope.createContact = function () {
 
-        alert($scope.relation);
+        if($scope.name !== "" && $scope.relation != "" && $scope.phone !== "") {
 
-        let json = {"name": $scope.name, "relation": $scope.relation, "phone": $scope.phone};
+            let json = {"name": $scope.name, "relation": $scope.relation, "phone": $scope.phone};
 
-        $("#modal-user").modal("toggle");
+            $("#modal-user").modal("toggle");
 
-        $http.post("http://localhost:8085/contact", json).then(function (response) {
+            $http.post("http://localhost:8085/contact", json).then(function (response) {
 
-            $("#successCreateContact").show();
+                $("#successCreateContact").show();
 
-            window.setTimeout(function () {
+                window.setTimeout(function () {
 
-                $("#successCreateContact").alert("close");
+                    $("#successCreateContact").alert("close");
 
-                window.location.reload();
+                    window.location.reload();
 
-            }, 2000);
+                }, 2000);
 
-        }).catch(function (response) {
+            }).catch(function (response) {
 
-            $("#failedCreateContact").show();
+                $("#failedCreateContact").show();
 
-            window.setTimeout(function () {
+                window.setTimeout(function () {
 
-                $("#successCreateContact").alert("close");
+                    $("#failedCreateContact").alert("close");
 
-                window.location.reload();
+                    window.location.reload();
 
-            }, 2000);
+                }, 2000);
 
-        });
+            });
+
+        }else{
+
+            alert("Alert! Please fill the fields");
+
+
+
+        }
     };
 
     $scope.getAllContacts = (function () {
@@ -142,8 +150,15 @@ app.controller("createCtrl", function ($scope, $http) {
             $scope.listContacts = response.data;
 
         }).catch(function (response) {
+            $("#failedCreateContact").show();
 
-            alert("Error while requesting the database");
+            window.setTimeout(function () {
+
+                $("#failedCreateContact").alert("close");
+
+                window.location.reload();
+
+            }, 2000);
         })
     });
 
@@ -153,11 +168,21 @@ app.controller("createCtrl", function ($scope, $http) {
 
     $scope.getContactById = function (userId) {
 
+        $scope.isSearchActive=false;
+
         $http.get('http://localhost:8085/contact/'+userId).then(function (response) {
             alert(response.data["name"]);
 
         }).catch(function (response) {
-            alert("Error while requesting the database");
+
+
+            window.setTimeout(function () {
+
+                $("#failedCreateContact").alert("close");
+
+                window.location.reload();
+
+            }, 2000);
         });
         ;
     };
@@ -170,35 +195,59 @@ app.controller("createCtrl", function ($scope, $http) {
 
         }).catch(function (response) {
 
-            alert(response);
+            $("#failedCreateContact").show();
+
+            window.setTimeout(function () {
+
+                $("#failedCreateContact").alert("close");
+
+                window.location.reload();
+
+            }, 2000);
 
         });
 
-        $scope.refresh();
 
     };
 
     $scope.updateContact = function () {
 
-        $scope.id=0;
+        if($scope.name !== "" && $scope.relation != "" && $scope.phone !== "") {
 
-        $("modal-user").modal("toggle");
+            $("modal-user").modal("toggle");
 
-        let contact = {"id":$scope.id,"name":$scope.name,"relation":$scope.relation,"phone":$scope.phone};
+            let contact = {"id": $scope.id, "name": $scope.name, "relation": $scope.relation, "phone": $scope.phone};
 
-        $http.put("http://localhost:8085/contact",contact).then(function (response) {
+            $http.put("http://localhost:8085/contact", contact).then(function (response) {
 
-            window.setTimeout(function () {
+                $("#successCreateContact").show();
 
-                window.location.reload();
+                window.setTimeout(function () {
 
-            },2000);
+                    $("#successCreateContact").alert("close");
 
-        }).catch(function () {
+                    window.location.reload();
+
+                }, 2000);
+
+            }).catch(function () {
+
+                $("#failedCreateContact").show();
+
+                window.setTimeout(function () {
+
+                    $("#failedCreateContact").alert("close");
+
+                    window.location.reload();
+
+                }, 2000);
 
 
+            })
 
-        })
+        }else{
+            alert("Alert! Please fill the fields");
+        }
 
 
 
